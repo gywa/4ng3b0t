@@ -71,7 +71,6 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
   // when a new offer gets stored, add it to the UI
   hoodie.store.on('add:offer', $scope.updateOffers)
   hoodie.store.on('update:offer', $scope.updateOffers)
-  // when a offer gets removed, update UI
   hoodie.store.on('remove:offer', $scope.updateOffers)
 
   $scope.updateOffers();
