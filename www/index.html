@@ -3,21 +3,110 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{{hoodie_appname}}</title>
+    <title>Mittagsangebot</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
     <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="assets/vendor/prism/prism.css">
     <link rel="stylesheet" href="assets/main.css">
+    <link rel="stylesheet" href="assets/demo.css">
+    <link rel="stylesheet" href="assets/angebote.css">
   </head>
-  <body>
-    <div class="container">
+  <body ng-app="angebote">
+    <div class="container" ng-controller="main">
       <div class="hero-unit">
-        <h1>{{hoodie_appname}}</h1>
-        <p>
-          hoodie playground.
-        </p>
+        <h1>Mittagsangebot</h1>
+        <p>Erste Versuche ...</p>
+
+        <tabset>
+
+                        <tab>
+              <tab-heading><i class="icon-bell"></i>Angebotsliste</tab-heading>
+
+                <a ng-click="addToList()">neues Angebot</a>
+
+                <ul>
+                <li ng-repeat="item in angebote">
+                <span ng-click="showSelected(item)"   ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">Angebot {{item}}</span>
+                <!--<span ng-click="removeFromList(item)" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">Angebot {{item}}</span>-->
+                <button class="btn btn-small btn-danger" ng-click="removeFromList(item)">Löschen</button>
+                </li>
+                </ul>
+
+
+            </tab>
+
+            <tab heading="Toggle Beispiel">
+                <span ng-click="toggleActive()">
+                <p>was los?</p>
+                <h1 ng-show="active == true">bin aktiv</h1>
+                <h1 ng-hide="active == true">bin nicht aktiv</h1>
+                </span>
+
+                <button class="btn btn-small btn-danger" ng-click="alertMe()">Alert</button>
+            </tab>
+
+            <tab heading="Formularbeispiel">
+                <span ng-controller="FormDemoCtrl">
+                    <form name="offerForm" class="form inline-form">
+                        Start: <input type="time" ng-model="offer.start" ng-required="true"/><br />
+                        End:   <input type="time" ng-model="offer.end" ng-required="true" /><br />
+                        Desc:  <textarea ng-model="offer.desc" ng-required="true"></textarea><br />
+                        <button ng-click="reset()">RESET</button>
+                        <button ng-click="update(offer)">SAVE</button>
+                        <button ng-click="add(offer)">NEW</button>
+                    </form>
+                    <ul>
+                        <li ng-repeat="offer in offers">
+                            {{offer.desc}}
+                            <button class="btn btn-small"            ng-click="editOffer(offer)"  >EDIT  </button>
+                            <button class="btn btn-small btn-danger" ng-click="deleteOffer(offer)">DELETE</button>
+                        </li>
+                    </ul>
+                </span>
+            </tab>
+
+
+            <tab heading="Datumsbeispiel" ng-controller="DatepickerDemoCtrl">
+              <div ng-click="">
+              <!-- <div ng-controller="DatepickerDemoCtrl">-->
+                <pre>Ausgewähltes Datum: <em>{{dt | date:'fullDate' }}</em></pre>
+
+                <div class="well well-small pull-left" ng-model="dt">
+                <datepicker min="minDate" show-weeks="showWeeks" is-open="closed"></datepicker>
+                </div>
+
+                <div class="form-horizontal">
+                    <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="dt" is-open="opened" min="minDate" max="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" />
+                    <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+                </div>
+
+                <hr />
+                <button class="btn btn-small btn-inverse" ng-click="today()">Heute</button>
+                <button class="btn btn-small btn-inverse" ng-click="dt = '2009-08-24'">2009-08-24</button>
+                <button class="btn btn-small btn-success" ng-click="toggleWeeks()" tooltip="For inline datepicker">Toggle Weeks</button>
+                <button class="btn btn-small btn-danger" ng-click="clear()">Clear</button>
+                <button class="btn btn-small" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
+              </div>
+
+            </tab>
+
+
+
+
+            <tab heading="hoodie todos">
+                <div>
+
+                    <a ng-click="updateTodos()">update the todo list from server</a>
+
+                    <p ng-repeat="todo in todos">{{todo.title}}</p>
+
+                </div>
+            </tab>
+  </tabset>
+
+
 
         <div class="hoodie-accountbar">
 
@@ -67,46 +156,6 @@
         </div><!--/hoodieAccountBar -->
       </div>
 
-      <div class="content">
-        <ul id="todolist"></ul>
-
-        <input type="text" id="todoinput"  placeholder="new todo ↵" />
-      </div>
-
-      <div class="code">
-<pre class="language-javascript"><code class="language-javascript">
-// initialize Hoodie
-var hoodie  = new Hoodie()
-
-// initial load of all todo items from the store
-hoodie.store.findAll('todo').then( function(todos) {
-  todos.sort( sortByCreatedAt ).forEach( addTodo )
-})
-
-// when a new todo gets stored, add it to the UI
-hoodie.store.on('add:todo', addTodo)
-// clear todo list when the get wiped from store
-hoodie.account.on('signout', clearTodos)
-
-// handle creating a new task
-$('#todoinput').on('keypress', function(event) {
-  if (event.keyCode == 13) { // ENTER
-    hoodie.store.add('todo', {title: event.target.value});
-    event.target.value = '';
-  }
-})
-
-function addTodo( todo ) { 
-  $('#todolist').append('&lt;li&gt;'+todo.title+'&lt;/li&gt;');
-}
-function clearTodos() {
-  $('#todolist').html('');
-}
-function sortByCreatedAt(a, b) { 
-  return a.createdAt &gt; b.createdAt
-}
-</code></pre>
-      </div><!-- /.code -->
 
       <footer class="copy">
         <p>&hearts; hood.ie 2013</p>
@@ -114,11 +163,18 @@ function sortByCreatedAt(a, b) {
     </div> <!-- /.container -->
 
     <script src="assets/vendor/jquery-1.9.1.js"></script>
+    <script src="assets/vendor/angular.min.js"></script>
+    <script src="assets/vendor/angular-animate.min.js"></script>
+    <script src="assets/vendor/ui-bootstrap.min.js"></script>
     <script src="assets/vendor/bootstrap/bootstrap.js"></script>
     <script src="assets/vendor/prism/prism.js"></script>
     <script src="assets/vendor/hoodie.js"></script>
     <script src="assets/vendor/hoodie.accountbar.bootstrap.js"></script>
     <script src="assets/vendor/bootstrap.modalform.js"></script>
+    <script src="assets/vendor/angular.ui.bootstrap.datepicker.js"></script>
     <script src="assets/main.js"></script>
+    <script src="assets/demo.js"></script>
+    <script src="assets/angebote.js"></script>
+      <script src="assets/datepickerCtlr.js"></script>
   </body>
 </html>
