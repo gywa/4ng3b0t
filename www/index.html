@@ -21,7 +21,121 @@
 
         <tabset>
 
-                        <tab>
+            <tab heading="Restaurant">
+                <span ng-controller="FormDemoCtrl">
+
+                    <br />______ Status: _____<br/ >
+                    Mode: {{mode}}, currRestaurant: {{currRestaurant.name}}, currOffer: {{offer.name}}<br />
+                    <h2>Liste der Restaurants:</h2>
+                    <ul>
+                        <li ng-repeat="restaurant in restaurants">
+                            <em>{{restaurant.name}}</em> in {{restaurant.city}}
+                            <button class="btn btn-small"            ng-click="showOffers(restaurant)      ">Angebote  </button>
+                            <button class="btn btn-small"            ng-click="editRestaurant(restaurant)  ">Bearbeiten</button>
+                            <button class="btn btn-small btn-danger" ng-click="deleteRestaurant(restaurant)">Löschen   </button>
+                        </li>
+                    </ul>
+                    <button ng-click="newRestaurant()" >Neues Restaurant</button>
+                    <button ng-click="createSampleRestaurants()" >Musterrestaurants</button>
+                    <button ng-click="loadRestaurants()" >Gespeicherte Restaurants</button>
+
+
+                    <span ng-show="mode == 'createRestaurant' || mode == 'editRestaurant'">
+
+                      <form name="restaurantForm" class="form inline-form">
+
+                        <h3>Restaurant:</h3>
+                        Name:            <input type="text" ng-model="restaurant.name" ng-required="true"/>
+                        Stadt:           <input type="text" ng-model="restaurant.city" ng-required="true"/><br />
+                        Beschreibung:    <textarea          ng-model="restaurant.desc" ng-required="true"></textarea><br />
+                        <button ng-click="resetRestaurant()"         >Abbrechen</button>
+                        <button ng-click="saveRestaurant(restaurant)">Speichern</button>
+                        <br />
+                        Angebote:<br />
+                        <ul>
+                          <li ng-repeat="offer in restaurant.offers">
+                            {{offer.desc}}
+                            <button class="btn btn-small"            ng-click="editOffer(offer)  ">Bearbeiten</button>
+                            <button class="btn btn-small btn-danger" ng-click="deleteOffer(offer)">Löschen   </button>
+                          </li>
+                        </ul>
+                        <button ng-click="newOffer(restaurant)" >Neues Angebot</button>
+
+                      </form>
+                    </span>
+
+                    <span ng-show="mode == 'showOffers' || mode == 'editOffers'">
+
+                      <form name="restaurantForm" class="form inline-form">
+
+                        <h4>Angebote von {{currRestaurant.name}} in {{currRestaurant.city}} </h4>
+                        <ul>
+                          <li ng-repeat="offer in currRestaurant.offers">
+                            {{offer.desc}}
+                            <button class="btn btn-small"            ng-click="editOffer(offer)  ">Bearbeiten</button>
+                            <button class="btn btn-small btn-danger" ng-click="deleteOffer(offer)">Löschen   </button>
+                          </li>
+                        </ul>
+                        <button ng-click="newOffer(currRestaurant)" >Neues Angebot</button>
+
+                      </form>
+                    </span>
+
+                    <span ng-show="mode == 'createOffer' || mode == 'editOffer'">
+                      <form name="offerForm" class="form inline-form">
+                        <!--Start: <input type="time" ng-model="offer.start" ng-required="true"/><br />-->
+                        <!--End:   <input type="time" ng-model="offer.end"   ng-required="true" /><br />-->
+                        Desc:  <textarea          ng-model="offer.desc"  ng-required="true"></textarea><br />
+                        <button ng-click="resetOffer()"      >Abbrechen</button>
+                        <button ng-click="saveOffer(offer)">Speichern </button>
+                      </form>
+
+                    </span>
+
+                </span>
+            </tab>
+
+            <tab heading="Angebote(alt)">
+                <span>
+                    Show/Hide-Bsp - Click me: <input type="checkbox" ng-model="checked"><br/>
+                Show: <span ng-show="checked">I show up when your checkbox is checked.</span> <br/>
+                Hide: <span ng-hide="checked">I hide when your checkbox is checked.</span>
+                </span>
+                <span ng-controller="FormDemoCtrl">
+                    <form name="offerForm" class="form inline-form">
+                        Start: <input type="time" ng-model="offer.start" ng-required="true"/><br />
+                        End:   <input type="time" ng-model="offer.end"   ng-required="true" /><br />
+                        Desc:  <textarea          ng-model="offer.desc"  ng-required="true"></textarea><br />
+                        <button ng-click="reset()"      >RESET</button>
+                        <button ng-click="update(offer)">SAVE </button>
+                        <button ng-click="add(offer)"   >NEW  </button>
+                    </form>
+                    <ul>
+                        <li ng-repeat="offer in offers">
+                            {{offer.desc}}
+                            <button class="btn btn-small"            ng-click="editOffer(offer)"  >EDIT  </button>
+                            <button class="btn btn-small btn-danger" ng-click="deleteOffer(offer)">DELETE</button>
+                        </li>
+                    </ul>
+                </span>
+            </tab>
+
+            <tab>
+              <tab-heading><i class="icon-bell"></i>Restaurant mit Angeboten</tab-heading>
+
+                <button ng-click="createRestaurantWithOffer()" >Daten initialisieren</button>
+
+                <ul>
+                <li ng-repeat="item in restaurants">
+                    Name: {{item.name}} in {{item.city}} <br />
+                    <!--Angebote:  {{item.offers[0].desc}}, {{item.offers[0].time}}-->
+                </li>
+                </ul>
+
+
+
+            </tab>
+            <tab>
               <tab-heading><i class="icon-bell"></i>Angebotsliste</tab-heading>
 
                 <a ng-click="addToList()">neues Angebot</a>
@@ -47,25 +161,7 @@
                 <button class="btn btn-small btn-danger" ng-click="alertMe()">Alert</button>
             </tab>
 
-            <tab heading="Formularbeispiel">
-                <span ng-controller="FormDemoCtrl">
-                    <form name="offerForm" class="form inline-form">
-                        Start: <input type="time" ng-model="offer.start" ng-required="true"/><br />
-                        End:   <input type="time" ng-model="offer.end" ng-required="true" /><br />
-                        Desc:  <textarea ng-model="offer.desc" ng-required="true"></textarea><br />
-                        <button ng-click="reset()">RESET</button>
-                        <button ng-click="update(offer)">SAVE</button>
-                        <button ng-click="add(offer)">NEW</button>
-                    </form>
-                    <ul>
-                        <li ng-repeat="offer in offers">
-                            {{offer.desc}}
-                            <button class="btn btn-small"            ng-click="editOffer(offer)"  >EDIT  </button>
-                            <button class="btn btn-small btn-danger" ng-click="deleteOffer(offer)">DELETE</button>
-                        </li>
-                    </ul>
-                </span>
-            </tab>
+
 
 
             <tab heading="Datumsbeispiel" ng-controller="DatepickerDemoCtrl">
