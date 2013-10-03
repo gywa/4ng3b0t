@@ -15,7 +15,6 @@ angeboteApp.controller("main", function($scope){
   $scope.toggleActive = function(){$scope.active = !$scope.active;};
   $scope.alertMe      = function(){alert("wurde ausgewählt");};
 
-
 });
 
 // initialize Hoodie
@@ -25,15 +24,12 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
 
   // ======================== Restaurants ========================
 
-  $scope.activity = 'show';
-  //$scope.loadRestaurants = function(){ hoodie.store.findAll('restaurant').then( function(restaurants) { $scope.restaurants = restaurants; }); };
-
   $scope.loadRestaurants = function(){
 
     // initial load of all items from the store
     hoodie.store.findAll('restaurant').then( function(restaurants) {
-      $scope.restaurants = restaurants;
-      $scope.restaurant  = $scope.restaurants[0];
+      $scope.restaurants    = restaurants;
+      //$scope.currRestaurant = {};
     });
   };
 
@@ -44,53 +40,58 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
 
   $scope.loadRestaurants();
 
-  //$scope.restaurant.offers = [];
-
-
-  $scope.newRestaurant    = function()    { $scope.restaurant = {};                    $scope.mode = 'createRestaurant'; };
-  $scope.editRestaurant   = function(item){ $scope.currRestaurant = item; $scope.restaurant = angular.copy(item);    $scope.mode = 'editRestaurant';   };
-  $scope.deleteRestaurant = function(item){ hoodie.store.remove('restaurant',item.id); $scope.mode = 'showRestaurants';  };
-  $scope.showOffers       = function(item){ $scope.currRestaurant = item;          $scope.mode = 'showOffers';       };
+  $scope.newRestaurant    = function()    { $scope.currRestaurant = {};                 $scope.mode = 'createRestaurant'; };
+  $scope.editRestaurant   = function(item){ $scope.currRestaurant = angular.copy(item); $scope.mode = 'editRestaurant';   };
+  $scope.deleteRestaurant = function(item){ hoodie.store.remove('restaurant',item.id);  $scope.mode = 'showRestaurants';  };
+  $scope.showOffers       = function(item){ $scope.currRestaurant = item;               $scope.mode = 'showOffers';       };
   $scope.loadRestaurants  = function()    { hoodie.store.findAll('restaurant').then( function(restaurants) { $scope.restaurants = restaurants; }); };
   $scope.updateRestaurant = function(item){ if($scope.restaurantForm.$valid){ hoodie.store.update( 'restaurant', item.id, item); } else { alert("korrigiere!"); }};
-  $scope.resetRestaurant  = function()    { $scope.restaurant = {}; $scope.currRestaurant = {};                     };
+  $scope.resetRestaurant  = function()    { $scope.currRestaurant = {};                     };
 
   $scope.addRestaurant    = function(item){
       if($scope.restaurantForm.$valid){
 
-          restaurant.offers = {};
           hoodie.store.add( 'restaurant', item);
           $scope.resetRestaurant();
 
-      } else { warn(); }
+      } else { $scope.warn(); }
   };
   $scope.saveRestaurant    = function(item){
       if($scope.restaurantForm.$valid){
 
-          item.offers = [];
-          hoodie.store.add( 'restaurant', item);
-          //$scope.resetRestaurant();
-          $scope.mode = 'editRestaurant';
+        if ($scope.mode == 'createRestaurant')
+             { hoodie.store.add   ( 'restaurant', item); }
+        else { hoodie.store.update( 'restaurant', $scope.currRestaurant.id, $scope.currRestaurant); } // ok?
+        $scope.resetRestaurant();
+        $scope.mode = 'showRestaurants';
 
-      } else { warn(); }
+      } else { $scope.warn(); }
   };
 
 
-  $scope.createSampleRestaurants    = function(){
+  $scope.createSampleRestaurants = function(){
 
     // just create some data to work with
     var sampleRestaurants = [
-      {"name": "Pub1", "city": "dresden", "desc": "DescrPub1",
-       "offers": [ { "desc": "angebot1", "time": "morgens" },
-                   { "desc": "angebot2", "time": "mittags" }
-               ] },
-      {"name": "Pub2", "city": "freiberg", "desc": "DescrPub2" },
-      {"name": "Pub3", "city": "radebeul", "desc": "DescrPub3" }
+
+      { "name":   "Maharadscha", "city": "Dresden",   "desc": "Indische Spezialitäten",
+        "offers": [{ "desc": "Linsensuppe",           "time": "mittags" },
+                   { "desc": "Curry aus Delhi",       "time": "abends"  }]},
+
+      { "name":   "Little Italy", "city": "Radebeul", "desc": "Wie in Italien!",
+        "offers": [{ "desc": "rote Nudeln",           "time": "mittags" },
+                   { "desc": "Pizza Speziale",        "time": "abends"  }]},
+
+      { "name":   "Stadtwirtschaft", "city": "Freiberg", "desc": "Ursächsisches!",
+        "offers": [{ "desc": "Bauernfruehstueck",     "time": "morgens" },
+                   { "desc": "Tafelspitz",            "time": "mittags" },
+                   { "desc": "Rostbraten",            "time": "abends"  }]}
     ];
     hoodie.store.add( 'restaurant', sampleRestaurants[0]);
     hoodie.store.add( 'restaurant', sampleRestaurants[1]);
     hoodie.store.add( 'restaurant', sampleRestaurants[2]);
 
+    //$scope.restaurants = sampleRestaurants;
     $scope.mode = 'showRestaurants';
 
   };
@@ -116,17 +117,21 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
   $scope.newOffer    = function()    { $scope.offer = {}; $scope.mode = 'createOffer';   };
   $scope.addOffer    = function(item){ if($scope.offerForm.$valid){ hoodie.store.add   ( 'offer', item); $scope.resetOffer(); } else { alert("korrigiere!"); }};
   $scope.updateOffer = function(item){ if($scope.offerForm.$valid){ hoodie.store.update( 'offer', item.id, item); } else { alert("korrigiere!"); }};
-  $scope.editOffer   = function(item){ $scope.offer = angular.copy(item);     };
+  //$scope.editOffer   = function(item){ $scope.offer = angular.copy(item); $scope.mode = 'editOffer';    };
+  $scope.editOffer   = function(item){ $scope.offer = item; $scope.mode = 'editOffer';    };
   $scope.resetOffer  = function()    { $scope.offer = {};                     };
-  $scope.deleteOffer = function(item){ hoodie.store.remove('offer', item.id); };
+  $scope.deleteOffer = function(item){ hoodie.store.remove('offer', item.id); $scope.resetOffer(); };
 
   $scope.saveOffer    = function(item){
       if($scope.offerForm.$valid){
 
-          $scope.restaurant.offers.push(item);
-          $scope.resetOffer();
+        if ($scope.mode == 'createOffer')
+        { $scope.currRestaurant.offers.push(item); }
+        else { hoodie.store.update( 'restaurant', $scope.currRestaurant.id, $scope.currRestaurant); } // ok?
+        $scope.resetOffer();
+        $scope.mode = 'editRestaurant';
 
-      } else { warn(); }
+      } else { $scope.warn(); }
   };
 
 });
