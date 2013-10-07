@@ -19,12 +19,12 @@ $('#todoinput').on('keypress', function(event) {
   }
 })
 
-function addTodo( todo ) { 
+function addTodo( todo ) {
   $('#todolist').append('<li>'+todo.title+'</li>');
 }
 function clearTodos() {
   $('#todolist').html('');
 }
-function sortByCreatedAt(a, b) { 
+function sortByCreatedAt(a, b) {
   return a.createdAt > b.createdAt
 }

@@ -1,4 +1,13 @@
-var angeboteApp = angular.module('angebote', ['datepicker', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']);
+//'use strict';
+
+var angeboteApp = angular.module('angeboteApp', ['datepicker', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']).
+  config(['$routeProvider', function($routeProvider) {
+  $routeProvider.
+      when('/restaurant',     {templateUrl: 'partials/restaurant-list.html',   controller: RestaurantListCtrl}).
+      when('/restaurant/:restaurantId', {templateUrl: 'partials/restaurant-detail.html', controller: RestaurantDetailCtrl}).
+      otherwise({redirectTo: '/restaurant'});
+}]);
+
 
 angeboteApp.controller("main", function($scope){
 
@@ -10,7 +19,7 @@ angeboteApp.controller("main", function($scope){
 
   $scope.addToList   = function(){$scope.angebote.push($scope.angebote[$scope.angebote.length - 1] + 1);};
   $scope.updateTodos = function(){hoodie.store.findAll('todo').then( function(todos) {$scope.todos = todos;});};
-  $scope.removeFromList = function(item){ var index = $scope.angebote.indexOf(item);$scope.angebote.splice(index, 1);};
+  $scope.removeFromList = function(item){var index   = $scope.angebote.indexOf(item);$scope.angebote.splice(index, 1);};
   $scope.showSelected   = function(item){var angebot = $scope.angebote[item];alert("Angebot " + item + " wurde ausgewählt");};
   $scope.toggleActive = function(){$scope.active = !$scope.active;};
   $scope.alertMe      = function(){alert("wurde ausgewählt");};
@@ -20,7 +29,8 @@ angeboteApp.controller("main", function($scope){
 // initialize Hoodie
 var hoodie  = new Hoodie();
 
-angeboteApp.controller("FormDemoCtrl", function($scope){
+function RestauranntListCtrl($scope) {
+
 
   // ======================== Restaurants ========================
 
@@ -29,8 +39,34 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
     // initial load of all items from the store
     hoodie.store.findAll('restaurant').then( function(restaurants) {
       $scope.restaurants    = restaurants;
-      //$scope.currRestaurant = {};
     });
+  };
+
+  $scope.createSampleRestaurants = function(){
+
+    // just create some data to work with
+    var sampleRestaurants = [
+
+      { "name":   "Maharadscha", "city": "Dresden",   "desc": "Indische Spezialitäten",
+        "offers": [{ "desc": "Linsensuppe",           "time": "mittags" },
+                   { "desc": "Curry aus Delhi",       "time": "abends"  }]},
+
+      { "name":   "Little Italy", "city": "Radebeul", "desc": "Wie in Italien!",
+        "offers": [{ "desc": "rote Nudeln",           "time": "mittags" },
+                   { "desc": "Pizza Speziale",        "time": "abends"  }]},
+
+      { "name":   "Stadtwirtschaft", "city": "Freiberg", "desc": "Ursächsisches!",
+        "offers": [{ "desc": "Bauernfruehstueck",     "time": "morgens" },
+                   { "desc": "Tafelspitz",            "time": "mittags" },
+                   { "desc": "Rostbraten",            "time": "abends"  }]}
+    ];
+    hoodie.store.add( 'restaurant', sampleRestaurants[0]);
+    hoodie.store.add( 'restaurant', sampleRestaurants[1]);
+    hoodie.store.add( 'restaurant', sampleRestaurants[2]);
+
+    //$scope.restaurants = sampleRestaurants;
+    $scope.mode = 'showRestaurants';
+
   };
 
   // when a new item gets stored, add it to the UI
@@ -39,6 +75,7 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
   hoodie.store.on('remove:restaurant', $scope.loadRestaurants);
 
   $scope.loadRestaurants();
+  $scope.createSampleRestaurants();
 
   $scope.newRestaurant    = function()    { $scope.currRestaurant = {};                 $scope.mode = 'createRestaurant'; };
   $scope.editRestaurant   = function(item){ $scope.currRestaurant = angular.copy(item); $scope.mode = 'editRestaurant';   };
@@ -69,32 +106,11 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
   };
 
 
-  $scope.createSampleRestaurants = function(){
+};
 
-    // just create some data to work with
-    var sampleRestaurants = [
-
-      { "name":   "Maharadscha", "city": "Dresden",   "desc": "Indische Spezialitäten",
-        "offers": [{ "desc": "Linsensuppe",           "time": "mittags" },
-                   { "desc": "Curry aus Delhi",       "time": "abends"  }]},
-
-      { "name":   "Little Italy", "city": "Radebeul", "desc": "Wie in Italien!",
-        "offers": [{ "desc": "rote Nudeln",           "time": "mittags" },
-                   { "desc": "Pizza Speziale",        "time": "abends"  }]},
-
-      { "name":   "Stadtwirtschaft", "city": "Freiberg", "desc": "Ursächsisches!",
-        "offers": [{ "desc": "Bauernfruehstueck",     "time": "morgens" },
-                   { "desc": "Tafelspitz",            "time": "mittags" },
-                   { "desc": "Rostbraten",            "time": "abends"  }]}
-    ];
-    hoodie.store.add( 'restaurant', sampleRestaurants[0]);
-    hoodie.store.add( 'restaurant', sampleRestaurants[1]);
-    hoodie.store.add( 'restaurant', sampleRestaurants[2]);
-
-    //$scope.restaurants = sampleRestaurants;
-    $scope.mode = 'showRestaurants';
-
-  };
+function RestauranntDetailCtrl($scope, $routeParams) {
+  $scope.RestaurantId = $routeParams.RestaurantId;
+};
 
   // ======================== allgemeine Methoden (generisch/Typ als Parameter) ============
 
@@ -134,8 +150,11 @@ angeboteApp.controller("FormDemoCtrl", function($scope){
       } else { $scope.warn(); }
   };
 
-});
 
+
+
+angeboteApp.controller('RestaurantListCtrl',   ['$scope',                 RestaurantListCtrl]);
+angeboteApp.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', RestaurantDetailCtrl]);
 // REMINDS:
 
 // within css: ng-cloak to avoid flickering/predisplaying ...[ng\:cloak], [ng-cloak], .ng-cloak {
