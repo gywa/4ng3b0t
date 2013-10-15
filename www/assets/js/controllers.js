@@ -2,11 +2,12 @@
 
 /* Controllers */
 
-function RestaurantListCtrl($scope, $http) {
+function RestaurantListCtrl($scope) {
 
   //$http.get('restaurantApps/restaurants.json').success(function(data) {
   //  $scope.restaurants = data;
   //});
+/*
   $scope.loadRestaurants = function(){
 
     // initial load of all items from the store
@@ -15,6 +16,11 @@ function RestaurantListCtrl($scope, $http) {
     });
   };
 
+  $scope.tastes      = {"French",   "Japanese", "German", "Greek",       "Italian"  };
+  $scope.atmospheres = {"standard", "fancy",    "hip",    "traditional", "romantic" };
+
+  $scope.selectedTaste      = "Japanese";
+  $scope.selectedAtmosphere = "fancy";
 
   $scope.createSampleRestaurants = function(){
 
@@ -45,12 +51,13 @@ function RestaurantListCtrl($scope, $http) {
 */
   //$scope.loadRestaurants();
   $scope.createSampleRestaurants();
-};
+ */
+}; // End RestaurantListCtrl
 
 function RestaurantDetailCtrl($scope, $routeParams) {
   $scope.restaurantId = $routeParams.restaurantId;
 }
 
 
-myApp.controller('RestaurantListCtrl',   ['$scope', '$http',        RestaurantListCtrl]);
+myApp.controller('RestaurantListCtrl',   ['$scope',                 RestaurantListCtrl]);
 myApp.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', RestaurantDetailCtrl]);

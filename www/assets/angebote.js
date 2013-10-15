@@ -1,12 +1,14 @@
 //'use strict';
 
-var angeboteApp = angular.module('angeboteApp', ['datepicker', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']).
+var angeboteApp = angular.module('angeboteApp', ['datepicker', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']);
+
+/*var angeboteApp = angular.module('angeboteApp', ['datepicker', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/restaurant',     {templateUrl: 'partials/restaurant-list.html',   controller: RestaurantListCtrl}).
       when('/restaurant/:restaurantId', {templateUrl: 'partials/restaurant-detail.html', controller: RestaurantDetailCtrl}).
       otherwise({redirectTo: '/restaurant'});
-}]);
+}]);*/
 
 
 angeboteApp.controller("main", function($scope){
@@ -29,7 +31,7 @@ angeboteApp.controller("main", function($scope){
 // initialize Hoodie
 var hoodie  = new Hoodie();
 
-function RestauranntListCtrl($scope) {
+angeboteApp.controller("RestaurantListCtrl", function($scope){
 
 
   // ======================== Restaurants ========================
@@ -108,7 +110,7 @@ function RestauranntListCtrl($scope) {
 
 };
 
-function RestauranntDetailCtrl($scope, $routeParams) {
+function RestaurantDetailCtrl($scope, $routeParams) {
   $scope.RestaurantId = $routeParams.RestaurantId;
 };
 
@@ -152,9 +154,10 @@ function RestauranntDetailCtrl($scope, $routeParams) {
 
 
 
-
+/*
 angeboteApp.controller('RestaurantListCtrl',   ['$scope',                 RestaurantListCtrl]);
 angeboteApp.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', RestaurantDetailCtrl]);
+*/
 // REMINDS:
 
 // within css: ng-cloak to avoid flickering/predisplaying ...[ng\:cloak], [ng-cloak], .ng-cloak {

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Natural Language Form</title>
+		<meta name="description" content="Natural Language Form with custom text input and drop-down lists" />
+		<meta name="keywords" content="Natural Language UI, sentence form, text input, contenteditable, html5, css3, jquery" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="../favicon.ico">
+        <link rel="stylesheet" type="text/css" href="assets/css/default.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/component.css" />
+		<script src="assets/js/modernizr.custom.js"></script>
+        <script src="assets/data/config.json"></script>
+	</head>
+	<body class="nl-blurred">
+		<div class="container demo-1">
+			<!-- Top Navigation -->
+			<div class="codrops-top clearfix">
+				<a class="codrops-icon codrops-icon-prev" href="http://tympanus.net/Development/MorphingDevices/"><span>Previous Demo</span></a>
+				<span class="right"><a class="codrops-icon codrops-icon-drop" href="http://tympanus.net/codrops/?p=15139"><span>Back to the Codrops Article</span></a></span>
+			</div>
+			<header>
+				<h1>Natural Language Form <span>with custom input elements</span></h1>
+			</header>
+			<div class="main clearfix">
+				<form id="nl-form" class="nl-form">
+                    I feel to eat
+					<select>
+						<option value="1" selected>any food</option>
+						<option value="2">Indian</option>
+						<option value="3">French</option>
+						<option value="4">Japanese</option>
+						<option value="2">Italian</option>
+					</select>
+                    ... Geschmacksrichtung: {{ $scope.selectedTaste }}
+                    <select data-ng-model="$scope.taste"
+                            data-ng-options="taste for taste in tastes">
+                    </select>
+
+					<br />in a
+					<select>
+						<option value="1" selected>standard</option>
+						<option value="2">fancy</option>
+						<option value="3">hip</option>
+						<option value="4">traditional</option>
+						<option value="2">romantic</option>
+					</select>
+                    <div data-ng-controller="RestaurantListCtrl">
+                        <div>
+                            ... Atmosphäre: {{ $scope.selectedAtmosphere }}
+                            <select data-ng-model="$scope.atmosphere"
+                                    data-ng-options="mood for mood in atmosphere">
+                            </select>
+                        </div>
+                    </div>
+
+					restaurant
+					<br />at
+					<select>
+						<option value="1" selected>anytime</option>
+					 	<option value="1">7 p.m.</option>
+					 	<option value="2">8 p.m.</option>
+					 	<option value="3">9 p.m.</option>
+					</select>
+					in <input type="text" value="" placeholder="any city" data-subline="For example: <em>Los Angeles</em> or <em>New York</em>"/>
+					<div class="nl-submit-wrap">
+						<button class="nl-submit" type="submit">Find a restaurant</button>
+					</div>
+					<div class="nl-overlay"></div>
+				</form>
+			</div>
+		</div><!-- /container -->
+		<script src="assets/js/nlform.js"></script>
+		<script>
+			var nlform = new NLForm( document.getElementById( 'nl-form' ) );
+		</script>
+
+
+<div>
+    <!--
+    <!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Restaurantangebote</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
+
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+</head>
+<body ng-app="restaurantsApp">
+
+    <div class="container">
+      <div class="hero-unit">
+
+          Start Restaurantliste
+
+          <div ng-view></div>
+
+
+    <div class="hoodie-accountbar">
+
+          <div class="hoodie-account-signedout">
+            <span class="btn-group">
+              <button class="btn btn-small btn-inverse" data-hoodie-action="signup">Sign Up</button>
+              <button class="btn btn-small dropdown-toggle btn-inverse" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu pull-right">
+                <li><a href="#" data-hoodie-action="signin">Sign In</a></li>
+                <li><a href="#" data-hoodie-action="resetpassword">Reset Password</a></li>
+                <li><a href="#" data-hoodie-action="destroy">Clear local data</a></li>
+              </ul>
+            </span>
+          </div><!-- /.hoodie-account-signedout -- >
+
+          <div class="hoodie-account-signedin">
+            Hello,
+            <span class="hoodie-username"><!-- usern name will be filled in here -- ></span>
+            <span class="btn-group">
+              <button class="btn btn-small btn-inverse" data-hoodie-action="signout">Sign Out</button>
+              <button class="btn btn-small dropdown-toggle btn-inverse" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu pull-right">
+                <li><a href="#" data-hoodie-action="changepassword">Change Password</a></li>
+                <li><a href="#" data-hoodie-action="changeusername">Change Username</a></li>
+                <li><a href="#" data-hoodie-action="destroy">Destroy Account</a></li>
+              </ul>
+            </span>
+          </div><!-- /.hoodie-account-signedin -- >
+
+          <div class="hoodie-account-error">
+            Hello,
+            <span class="hoodie-username"><!-- usern name will be filled in here -- ></span>.
+            <span class="btn-group">
+              <button class="btn btn-small btn-danger" data-hoodie-action="signin">Authentication error: Sign in again</button>
+              <button class="btn btn-small dropdown-toggle btn-danger" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu pull-right">
+                <li><a href="#" data-hoodie-action="signout">Sign out</a></li>
+              </ul>
+            </span>
+          </div><!-- /.hoodie-account-error -- >
+        </div><!--/hoodieAccountBar -- >
+
+      </div><!--/hero-unit -- >
+
+
+      <footer class="copy">
+        <p>&hearts; hood.ie 2013</p>
+      </footer>
+    </div> <!-- /.container -- >
+
+    <script src="assets/vendor/jquery-1.9.1.js"></script>
+    <script src="assets/vendor/angular.min.js"></script>
+    <script src="assets/vendor/angular-animate.min.js"></script>
+    <script src="assets/vendor/ui-bootstrap.min.js"></script>
+    <script src="assets/vendor/bootstrap/bootstrap.js"></script>
+    <script src="assets/vendor/prism/prism.js"></script>
+    <script src="assets/vendor/hoodie.js"></script>
+    <script src="assets/vendor/hoodie.accountbar.bootstrap.js"></script>
+    <script src="assets/vendor/bootstrap.modalform.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/controllers.js"></script>
+</body>
+</html>
+<!--
+<!DOCTYPE html>
+<html ng-app="angeboteApp">
+<!--<html class="no-js"> -- >
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mittagsangebot</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
+    <link rel="stylesheet" href="assets/main.css">
+    <link rel="stylesheet" href="assets/demo.css">
+    <link rel="stylesheet" href="assets/angebote.css">
+
+  </head>
+
+<body>
+
+  <div ng-view></div>
+
+</body>
+</html>
+
+  <!--<body ng-app="angeboteApp">
+    <!--<div class="container" ng-controller="main"> -- >
+
+
+        <h1>Mittagsangebot</h1>
+
+          <div ng-view></div>
+
+       <!--   <div ng-include="partials/restaurant-list.html"></div>
+
+<!-- <a href="#/restaurant/{{restaurant.id}}">{{restaurant.name}}</a>
+<div ng-include="partials/restaurant.html"></div>
+-- >
+
+
+
+    <script src="assets/vendor/jquery-1.9.1.js"></script>
+    <script src="assets/vendor/angular.min.js"></script>
+    <script src="assets/vendor/angular-animate.min.js"></script>
+    <script src="assets/vendor/ui-bootstrap.min.js"></script>
+    <script src="assets/vendor/bootstrap/bootstrap.js"></script>
+    <script src="assets/vendor/prism/prism.js"></script>
+    <script src="assets/vendor/hoodie.js"></script>
+    <script src="assets/vendor/hoodie.accountbar.bootstrap.js"></script>
+    <script src="assets/vendor/bootstrap.modalform.js"></script>
+    <script src="assets/vendor/angular.ui.bootstrap.datepicker.js"></script>
+    <script src="assets/main.js"></script>
+    <script src="assets/demo.js"></script>
+    <script src="assets/angebote.js"></script>
+    <script src="assets/datepickerCtlr.js"></script>
+  </body>
+</html>
+
+-->
+</div>
+        </body>
+</html>
