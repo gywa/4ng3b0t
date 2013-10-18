@@ -1,14 +1,12 @@
 //'use strict';
 
-var angeboteApp = angular.module('angeboteApp', ['datepicker', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']);
-
-/*var angeboteApp = angular.module('angeboteApp', ['datepicker', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']).
+var angeboteApp = angular.module('angeboteApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-      when('/restaurant',     {templateUrl: 'partials/restaurant-list.html',   controller: RestaurantListCtrl}).
-      when('/restaurant/:restaurantId', {templateUrl: 'partials/restaurant-detail.html', controller: RestaurantDetailCtrl}).
+      when('/restaurant',     {templateUrl: 'assets/partials/restaurant-list.html',   controller: 'RestaurantListCtrl'}).
+      when('/restaurant/:restaurantId', {templateUrl: 'assets/partials/restaurant-detail.html', controller: 'RestaurantDetailCtrl'}).
       otherwise({redirectTo: '/restaurant'});
-}]);*/
+}]);
 
 
 angeboteApp.controller("main", function($scope){
@@ -31,7 +29,7 @@ angeboteApp.controller("main", function($scope){
 // initialize Hoodie
 var hoodie  = new Hoodie();
 
-angeboteApp.controller("RestaurantListCtrl", function($scope){
+function RestaurantListCtrl($scope) {
 
 
   // ======================== Restaurants ========================
@@ -112,7 +110,7 @@ angeboteApp.controller("RestaurantListCtrl", function($scope){
 
 function RestaurantDetailCtrl($scope, $routeParams) {
   $scope.RestaurantId = $routeParams.RestaurantId;
-};
+
 
   // ======================== allgemeine Methoden (generisch/Typ als Parameter) ============
 
@@ -151,13 +149,12 @@ function RestaurantDetailCtrl($scope, $routeParams) {
 
       } else { $scope.warn(); }
   };
+};
 
 
 
-/*
 angeboteApp.controller('RestaurantListCtrl',   ['$scope',                 RestaurantListCtrl]);
 angeboteApp.controller('RestaurantDetailCtrl', ['$scope', '$routeParams', RestaurantDetailCtrl]);
-*/
 // REMINDS:
 
 // within css: ng-cloak to avoid flickering/predisplaying ...[ng\:cloak], [ng-cloak], .ng-cloak {
