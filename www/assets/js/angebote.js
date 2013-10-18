@@ -4,7 +4,7 @@ var angeboteApp = angular.module('angeboteApp', ['ngRoute', 'ui.bootstrap', 'ngA
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/restaurant',     {templateUrl: 'assets/partials/restaurant-list.html',   controller: 'RestaurantListCtrl'}).
-      when('/restaurant/:restaurantId', {templateUrl: 'assets/partials/restaurant-detail.html', controller: 'RestaurantDetailCtrl'}).
+      when('/restaurant/:restaurant.id', {templateUrl: 'assets/partials/restaurant-detail.html', controller: 'RestaurantDetailCtrl'}).
       otherwise({redirectTo: '/restaurant'});
 }]);
 
@@ -75,7 +75,7 @@ function RestaurantListCtrl($scope) {
   hoodie.store.on('remove:restaurant', $scope.loadRestaurants);
 
   $scope.loadRestaurants();
-  $scope.createSampleRestaurants();
+  //$scope.createSampleRestaurants();
 
   $scope.newRestaurant    = function()    { $scope.currRestaurant = {};                 $scope.mode = 'createRestaurant'; };
   $scope.editRestaurant   = function(item){ $scope.currRestaurant = angular.copy(item); $scope.mode = 'editRestaurant';   };
