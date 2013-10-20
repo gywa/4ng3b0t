@@ -13,7 +13,7 @@
             <ul>
                 <li ng-repeat="restaurant in restaurants" class="thumbnail">
 
-                   <a href="#/restaurants/{{restaurant.id}}">{{restaurant.id}}:<em>{{restaurant.name}}</em> in {{restaurant.city}}</a>
+                    <a href="#/restaurant/{{restaurant.id}}">{{restaurant.id}}:<em>{{restaurant.name}}</em> in {{restaurant.city}}</a>
 
                   <button class="btn btn-small"            ng-click="showOffers(restaurant)      ">Angebote  </button>
                   <button class="btn btn-small"            ng-click="editRestaurant(restaurant)  ">Bearbeiten</button>
@@ -23,6 +23,10 @@
 
                 </li>
              </ul>
+             <button ng-click="newRestaurant()"           >Neues Restaurant</button>
+             <button ng-click="createSampleRestaurants()" >Musterrestaurants</button>
+             <button ng-click="loadRestaurants()"         >Gespeicherte Restaurants</button>
+
         </form>
       </ul>
     </div>

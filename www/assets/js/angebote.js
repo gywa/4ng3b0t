@@ -4,7 +4,7 @@ var angeboteApp = angular.module('angeboteApp', ['ngRoute', 'ui.bootstrap', 'ngA
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/restaurant',     {templateUrl: 'assets/partials/restaurant-list.html',   controller: 'RestaurantListCtrl'}).
-      when('/restaurant/:restaurant.id', {templateUrl: 'assets/partials/restaurant-detail.html', controller: 'RestaurantDetailCtrl'}).
+  when('/restaurant/:restaurantId', {templateUrl: 'assets/partials/restaurant-detail.html', controller: 'RestaurantDetailCtrl'}).
       otherwise({redirectTo: '/restaurant'});
 }]);
 
@@ -109,7 +109,7 @@ function RestaurantListCtrl($scope) {
 };
 
 function RestaurantDetailCtrl($scope, $routeParams) {
-  $scope.RestaurantId = $routeParams.RestaurantId;
+  $scope.restaurantId = $routeParams.restaurantId;
 
 
   // ======================== allgemeine Methoden (generisch/Typ als Parameter) ============

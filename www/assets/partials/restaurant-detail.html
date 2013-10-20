@@ -1,29 +1,25 @@
 <div>
-TBD: detail view for {{restaurant.id}}
-
-<!--detail view for {{restaurantId}}
-
-<!--
 <form name="restaurantForm" class="form inline-form">
 
-                        <h3>Restaurant:</h3>
-                        Name:            <input type="text" ng-model="currRestaurant.name" ng-required="true"/>
-                        Stadt:           <input type="text" ng-model="currRestaurant.city" ng-required="true"/><br />
-                        Beschreibung:    <textarea          ng-model="currRestaurant.desc" ng-required="true"></textarea><br />
-                        <button ng-click="resetRestaurant()"             >Abbrechen</button>
-                        <button ng-click="saveRestaurant(currRestaurant)">Speichern</button>
-                        <br />
-                        Angebote:<br />
-                        <ul>
-                          <li ng-repeat="offer in currRestaurant.offers">
-                              {{offer.time}}: {{offer.desc}}
-                            <button class="btn btn-small"            ng-click="editOffer(offer)  ">Bearbeiten</button>
-                            <button class="btn btn-small btn-danger" ng-click="deleteOffer(offer)">Löschen   </button>
-                          </li>
-                        </ul>
-                        <button ng-click="newOffer(currRestaurant)" >Neues Angebot</button>
+    <h3>Restaurant <em>{{restaurantId.name}}</em> in {{restaurantId.city}}</h3>
+    {{restaurantId.desc}}
 
-                      </form>
+    <a href="#/restaurant/{{restaurant.id}}"><em>{{restaurant.name}}</em> in {{restaurant.city}}</a>
+
+    <button ng-click="resetRestaurant()"             >Abbrechen</button>
+    <button ng-click="saveRestaurant(restaurantId)">Speichern</button>
+    <br />
+    Angebote:<br />
+    <ul>
+      <li ng-repeat="offer in restaurantId.offers">
+          {{offer.time}}: {{offer.desc}}
+          <button class="btn btn-small"            ng-click="editOffer(offer)  ">Bearbeiten</button>
+          <button class="btn btn-small btn-danger" ng-click="deleteOffer(offer)">Löschen   </button>
+       </li>
+     </ul>
+     <button ng-click="newOffer(restaurantId)" >Neues Angebot</button>
+
+</form>
 
 <!-- ==== display offers if required ====== - ->
                     <span ng-show="mode == 'showOffers' ">
@@ -64,6 +60,10 @@ TBD: detail view for {{restaurant.id}}
                         <button ng-click="resetOffer()"    >Abbrechen</button>
                         <button ng-click="saveOffer(offer)">Speichern </button>
                       </form>
+
+Name:            <input type="text" ng-model="restaurantId.name" ng-required="true"/>
+    Stadt:           <input type="text" ng-model="restaurantId.city" ng-required="true"/><br />
+    Beschreibung:    <textarea          ng-model="restaurantId.desc" ng-required="true"></textarea><br />
 
                     </span>
 -->
