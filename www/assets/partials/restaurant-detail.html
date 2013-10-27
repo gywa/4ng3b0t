@@ -1,13 +1,15 @@
 <div>
-<form name="restaurantForm" class="form inline-form">
+    <a href="#/restaurant">>Zurueck zu Restaurantuebersicht<</a>
+    <br />
+  <form name="restaurantForm" class="form inline-form">
 
-    <h3>Restaurant <em>{{restaurantId.name}}</em> in {{restaurantId.city}}</h3>
+      <h3>Restaurant <em>Id: {{restaurantId}}, Name: {{restaurantId.name}}</em> in Ort: {{restaurantId.city}}</h3>
     {{restaurantId.desc}}
 
-    <a href="#/restaurant/{{restaurant.id}}"><em>{{restaurant.name}}</em> in {{restaurant.city}}</a>
-
-    <button ng-click="resetRestaurant()"             >Abbrechen</button>
+    <button ng-click="resetRestaurant()"           >Abbrechen</button>
     <button ng-click="saveRestaurant(restaurantId)">Speichern</button>
+
+
     <br />
     Angebote:<br />
     <ul>

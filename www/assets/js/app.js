@@ -14,9 +14,9 @@ var myApp = angular.module('restaurantsApp', ['ui.bootstrap', 'ngRoute']).
 var angeboteApp = angular.module('angeboteApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate','ui.bootstrap.datepicker']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-      when('/restaurant',                {templateUrl: 'assets/partials/restaurant-list.html',   controller: 'RestaurantListCtrl'}).
+      when('/restaurant',               {templateUrl: 'assets/partials/restaurant-list.html',   controller: 'RestaurantListCtrl'  }).
       when('/restaurant/:restaurantId', {templateUrl: 'assets/partials/restaurant-detail.html', controller: 'RestaurantDetailCtrl'}).
-      otherwise                         ({redirectTo: '/restaurant'});
+      otherwise                        ({redirectTo:  '/restaurant'});
 }]);
 
 angeboteApp.controller('RestaurantListCtrl',   ['$scope',                 RestaurantListCtrl]);

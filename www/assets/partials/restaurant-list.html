@@ -7,27 +7,21 @@
       <ul class="phones">
       <!--<ul>-->
 
-
-        <form name="restaurantListForm" class="form inline-form">
-
             <ul>
                 <li ng-repeat="restaurant in restaurants" class="thumbnail">
 
                     <a href="#/restaurant/{{restaurant.id}}">{{restaurant.id}}:<em>{{restaurant.name}}</em> in {{restaurant.city}}</a>
-
-                  <button class="btn btn-small"            ng-click="showOffers(restaurant)      ">Angebote  </button>
-                  <button class="btn btn-small"            ng-click="editRestaurant(restaurant)  ">Bearbeiten</button>
-                  <button class="btn btn-small btn-danger" ng-click="deleteRestaurant(restaurant)">Löschen   </button>
-
-                  <p>{{restaurant.desc}}</p>
-
+                    <button class="btn btn-small"            ng-click="showOffers(restaurant)      ">Angebote  </button>
+                    <button class="btn btn-small"            ng-click="editRestaurant(restaurant)  ">Bearbeiten</button>
+                    <button class="btn btn-small btn-danger" ng-click="deleteRestaurant(restaurant)">Löschen   </button>
+                    <p>{{restaurant.desc}}</p>
                 </li>
              </ul>
-             <button ng-click="newRestaurant()"           >Neues Restaurant</button>
-             <button ng-click="createSampleRestaurants()" >Musterrestaurants</button>
+
+             <button ng-click="newRestaurant()"           >Neues Restaurant        </button>
+             <button ng-click="createSampleRestaurants()" >Musterrestaurants       </button>
              <button ng-click="loadRestaurants()"         >Gespeicherte Restaurants</button>
 
-        </form>
       </ul>
     </div>
   </div>

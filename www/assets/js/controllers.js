@@ -43,7 +43,13 @@ function RestaurantListCtrl($scope) {
                    { "desc": "Rostbraten",            "time": "abends"  }]}
     ];
 
-    $scope.restaurants = sampleRestaurants;
+    // store it in backend to get 'id'
+    hoodie.store.add   ( 'restaurant', sampleRestaurants[0]);
+    hoodie.store.add   ( 'restaurant', sampleRestaurants[1]);
+    hoodie.store.add   ( 'restaurant', sampleRestaurants[2]);
+
+    $scope.loadRestaurants();
+    //$scope.restaurants = sampleRestaurants;
   }
 
   // when a new item gets stored, add it to the UI
@@ -87,9 +93,11 @@ function RestaurantListCtrl($scope) {
 
 function RestaurantDetailCtrl($scope, $routeParams) {
 
-    $scope.restaurantId = $routeParams.restaurantId;
 
-
+  console.log($routeParams.restaurantId);
+  $scope.restaurantId = $routeParams.restaurantId;
+  console.log($scope.restaurantId.type);
+/*
   // ======================== allgemeine Methoden (generisch/Typ als Parameter) ============
 
   $scope.delete = function(item, type){ hoodie.store.remove(type, item.id); };
@@ -126,6 +134,6 @@ function RestaurantDetailCtrl($scope, $routeParams) {
         $scope.mode = 'editRestaurant';
 
       } else { $scope.warn(); }
-  };
-}
+  };*/
+};
 
